@@ -1,3 +1,11 @@
+![Code Quality](https://api.codiga.io/project/30759/score/svg)
+![Code Grade](https://api.codiga.io/project/30759/status/svg)
+![Maintenance](https://img.shields.io/maintenance/yes/2022)
+![GitHub all releases](https://img.shields.io/github/downloads/elsell/MinecraftOnlinePlayersOverlayGenerator/total?color=brightgreen) 
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/elsell/MinecraftOnlinePlayersOverlayGenerator)
+
+
+
 # Minecraft - Online Players Overlay Generator
 
 ## Contents
