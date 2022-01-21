@@ -12,7 +12,7 @@
 
 ## About
 
-MOPOG (pronounced MOW-POG) automatically generates an image displaying the players that are currently on a Minecraft server.
+MOPOG (pronounced M-OH-POG) automatically generates an image displaying the players that are currently on a Minecraft server.
 
 The intended use of the image is as an overlay on a live-stream, and works beautifully with [OBS Studio](https://obsproject.com/). 
 
