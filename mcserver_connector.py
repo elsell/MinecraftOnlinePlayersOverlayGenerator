@@ -60,8 +60,8 @@ class MinecraftConnector:
         some sort of cache or existence check would be neat.
         """
         request_url = MinecraftConnector.MC_HEADS_GET_HEAD.format(uuid)
-        logging.debug(f"Request head for UUID: %s", uuid)
-        logging.debug(f"Making request to %s", request_url)
+        logging.debug("Request head for UUID: %s", uuid)
+        logging.debug("Making request to %s", request_url)
         r = requests.get(request_url, stream=True)
 
         if r.status_code == 200:
