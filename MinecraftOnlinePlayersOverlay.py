@@ -175,7 +175,7 @@ class MinecraftOnlinePlayersOverlay:
             player_image = self._build_player_image_board()
             if player_image:
                 self._save_image(player_image, self._player_image_name)
-                self._log.info(f"Saving image: {self._player_image_name}")
+                self._log.info("Saving image: %s", self._player_image_name)
             else:
                 self._log.info("No players found. Not updating image.")
 
@@ -183,15 +183,15 @@ class MinecraftOnlinePlayersOverlay:
 
 
 def get_config(filename, default_params):
-    config = configparser.ConfigParser(default_params)
+    new_config = configparser.ConfigParser(default_params)
     if os.path.isfile(filename):
         with open(filename, "r", encoding="utf-8") as config_file:
-            config.read_file(config_file)
+            new_config.read_file(config_file)
     else:
         with open(filename, "w", encoding="utf-8") as config_file:
-            config.write(config_file)
+            new_config.write(config_file)
 
-    return config
+    return new_config
 
 
 def init_log(cmd_args):

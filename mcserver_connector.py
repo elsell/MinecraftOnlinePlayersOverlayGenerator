@@ -2,6 +2,7 @@ import os
 import shutil
 import logging
 import tempfile
+from urllib import request
 import requests
 from mcstatus import MinecraftServer
 
@@ -59,13 +60,13 @@ class MinecraftConnector:
         some sort of cache or existence check would be neat.
         """
         request_url = MinecraftConnector.MC_HEADS_GET_HEAD.format(uuid)
-        logging.debug(f"Request head for UUID: {uuid}")
-        logging.debug(f"Making request to {request_url}")
+        logging.debug(f"Request head for UUID: %s", uuid)
+        logging.debug(f"Making request to %s", request_url)
         r = requests.get(request_url, stream=True)
 
         if r.status_code == 200:
             filepath = os.path.join(self._temp_dir, "{}.png".format(uuid))
-            logging.debug(f"Set image filepath to: {filepath}")
+            logging.debug("Set image filepath to: %s", filepath)
             with open(filepath, "wb") as f:
                 r.raw.decode_content = True
                 shutil.copyfileobj(r.raw, f)
@@ -90,7 +91,7 @@ class MinecraftConnector:
 
             players = list(status["players"]["sample"])
 
-            self._log.debug(f"{len(players)} players found.")
+            self._log.debug("%i players found.", len(players))
 
             for p in players:
                 head = None
