@@ -188,5 +188,5 @@ However, MOPOG uses [MC Heads](https://mc-heads.net) who do not enforce any rate
 MOPOG doesn't work alone! Here is a small, non-comprehensive list, of projects that it uses:
 
 - [MC Heads](https://mc-heads.net)
-- [Minecraft Font)(https://www.fonts4free.net/minecraft-pixel-font.html) (Attribution-ShareAlike 3.0 Unported)
+- [Minecraft Font](https://www.fonts4free.net/minecraft-pixel-font.html) (Attribution-ShareAlike 3.0 Unported)
 - [mcstatus](https://github.com/Dinnerbone/mcstatus)
