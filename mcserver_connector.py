@@ -74,7 +74,7 @@ class MinecraftConnector:
 
         return None
 
-    def _get_online_players(self):
+    def get_online_players(self):
         """
         @return [{id: str, name: str}, ...]
         """
@@ -106,5 +106,5 @@ class MinecraftConnector:
 
 if __name__ == "__main__":
     m = MinecraftConnector("mc.3411.best")
-    print(m._get_online_players())
+    print(m.get_online_players())
     # m.cleanup()

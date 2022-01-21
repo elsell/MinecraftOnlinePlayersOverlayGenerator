@@ -1,14 +1,19 @@
 import sys
 import argparse
 import configparser
-from mcserver_connector import MinecraftConnector
-from PIL import Image, ImageDraw, ImageFont
 import time
 import os
 import logging
+from mcserver_connector import MinecraftConnector
+from PIL import Image, ImageDraw, ImageFont
 
 
 class MinecraftOnlinePlayersOverlay:
+    """
+    Generates a transparent image that shows the names and skins
+    of players on a Minecraft server.
+    """
+
     def __init__(self, image_output_dir: str, minecraft_server_ip: str, **kwargs):
         """[summary]
 
@@ -52,6 +57,9 @@ class MinecraftOnlinePlayersOverlay:
 
         self._print_init()
 
+    def cleanup(self):
+        self._mcserver.cleanup()
+
     def _print_init(self):
         self._log.info("Initializing MinecraftOnlinePlayersOverlay (MOPO)")
         items = {
@@ -72,7 +80,7 @@ class MinecraftOnlinePlayersOverlay:
         image.save(os.path.join(self._image_output_dir, image_name))
 
     def _build_player_image_board(self):
-        players = self._mcserver._get_online_players()
+        players = self._mcserver.get_online_players()
 
         if len(players) > 0:
             names = [p["name"] for p in players]
@@ -86,8 +94,8 @@ class MinecraftOnlinePlayersOverlay:
 
             self._log.debug(
                 (
-                    "Image Height (without text): {}".format(total_height),
-                    "Image Width (without text): {}".format(total_width),
+                    f"Image Height (without text): {total_height}",
+                    f"Image Width (without text): {total_width}",
                 )
             )
 
@@ -101,8 +109,8 @@ class MinecraftOnlinePlayersOverlay:
             return self._draw_player_names_on_image(
                 combined_images, names, total_width, self._vertical_padding
             )
-        else:
-            return None
+
+        return None
 
     def _draw_player_names_on_image(self, image, names, head_height, padding):
         width, height = image.size
@@ -123,26 +131,42 @@ class MinecraftOnlinePlayersOverlay:
             )
 
         for i, name in enumerate(names):
-            x = name_width - name_right_padding
-            y = (i * padding) + ((i + 1) * (head_height)) - (head_height * 0.5)
+            x_pos = name_width - name_right_padding
+            y_pos = (i * padding) + ((i + 1) * (head_height)) - (head_height * 0.5)
             color_fg = (255, 255, 255)
             color_outline = (0, 0, 0)
 
             if self._draw_shadow:
                 draw.text(
-                    (x - 5, y - 5), name, font=font, fill=color_outline, anchor="rm"
+                    (x_pos - 5, y_pos - 5),
+                    name,
+                    font=font,
+                    fill=color_outline,
+                    anchor="rm",
                 )
                 draw.text(
-                    (x + 5, y - 5), name, font=font, fill=color_outline, anchor="rm"
+                    (x_pos + 5, y_pos - 5),
+                    name,
+                    font=font,
+                    fill=color_outline,
+                    anchor="rm",
                 )
                 draw.text(
-                    (x - 5, y + 5), name, font=font, fill=color_outline, anchor="rm"
+                    (x_pos - 5, y_pos + 5),
+                    name,
+                    font=font,
+                    fill=color_outline,
+                    anchor="rm",
                 )
                 draw.text(
-                    (x + 5, y + 5), name, font=font, fill=color_outline, anchor="rm"
+                    (x_pos + 5, y_pos + 5),
+                    name,
+                    font=font,
+                    fill=color_outline,
+                    anchor="rm",
                 )
 
-            draw.text((x, y), name, color_fg, font=font, anchor="rm")
+            draw.text((x_pos, y_pos), name, color_fg, font=font, anchor="rm")
 
         return named_image
 
@@ -151,7 +175,7 @@ class MinecraftOnlinePlayersOverlay:
             player_image = self._build_player_image_board()
             if player_image:
                 self._save_image(player_image, self._player_image_name)
-                self._log.info("Saving image: {}".format(self._player_image_name))
+                self._log.info(f"Saving image: {self._player_image_name}")
             else:
                 self._log.info("No players found. Not updating image.")
 
@@ -161,18 +185,18 @@ class MinecraftOnlinePlayersOverlay:
 def get_config(filename, default_params):
     config = configparser.ConfigParser(default_params)
     if os.path.isfile(filename):
-        with open(filename, "r") as f:
-            config.read_file(f)
+        with open(filename, "r", encoding="utf-8") as config_file:
+            config.read_file(config_file)
     else:
-        with open(filename, "w") as f:
-            config.write(f)
+        with open(filename, "w", encoding="utf-8") as config_file:
+            config.write(config_file)
 
     return config
 
 
-def init_log(args):
+def init_log(cmd_args):
     logging.basicConfig(
-        level=args.loglevel.upper(),
+        level=cmd_args.loglevel.upper(),
         stream=sys.stdout,
         format="[%(asctime)s] %(levelname)8s : %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
@@ -225,4 +249,4 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("Exiting")
 
-    overlay._mcserver.cleanup()
+    overlay.cleanup()
