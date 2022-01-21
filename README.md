@@ -8,6 +8,7 @@
 - [Configuration](#configuration)
 - [Command-Line Options](#command-line-options)
 - [FAQ](#faq)
+- [Projects Used](#projects-used)
 
 
 ## About
@@ -180,3 +181,12 @@ However, MOPOG uses [MC Heads](https://mc-heads.net) who do not enforce any rate
 
 > **NOTE:** Even though you are theoretically unlimited, very quick refresh rates could potentially slow down the Minecraft server. 
 > In addition, the query itself often takes more than 1 second, so it's best to stick to a refresh interval that is no less than 5 seconds. 
+
+
+# Projects Used
+
+MOPOG doesn't work alone! Here is a small, non-comprehensive list, of projects that it uses:
+
+- [MC Heads](https://mc-heads.net)
+- [Minecraft Font)(https://www.fonts4free.net/minecraft-pixel-font.html) (Attribution-ShareAlike 3.0 Unported)
+- [mcstatus](https://github.com/Dinnerbone/mcstatus)
