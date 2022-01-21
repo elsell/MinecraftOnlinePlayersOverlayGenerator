@@ -1,12 +1,20 @@
 import os
 import shutil
-import requests
-from mcstatus import MinecraftServer
 import logging
 import tempfile
+import requests
+from mcstatus import MinecraftServer
 
 
 class MinecraftConnector:
+    """mcstatus wrapper that adds the ability to get
+    player head information along with online player info.
+
+    Raises:
+        SystemExit: Raised if the server configured does not provide any player
+        information.
+    """
+
     MC_HEADS_GET_HEAD = "https://mc-heads.net/avatar/{}.png"
 
     def __init__(self, server_ip: str, server_port: int = 25565):
@@ -21,7 +29,7 @@ class MinecraftConnector:
         self._server = MinecraftServer(self._server_ip, self._server_port)
 
     def cleanup(self):
-        logging.debug("Removing temp dir: {}".format(self._temp_dir))
+        logging.debug("Removing temp dir: %s", self._temp_dir)
         shutil.rmtree(self._temp_dir)
 
     def _init_logging(self):
@@ -36,12 +44,11 @@ class MinecraftConnector:
     def _status(self):
         try:
             return self._server.status()
-        except Exception as e:
+        except Exception:
             self._log.error(
-                "Unable to connect to server {}. "
-                "Will continue running in-case it comes online.".format(
-                    "{}:{}".format(self._server_ip, self._server_port)
-                )
+                "Unable to connect to server %s. "
+                "Will continue running in-case it comes online.",
+                "{}:{}".format(self._server_ip, self._server_port),
             )
             return None
 
@@ -52,20 +59,20 @@ class MinecraftConnector:
         some sort of cache or existence check would be neat.
         """
         request_url = MinecraftConnector.MC_HEADS_GET_HEAD.format(uuid)
-        logging.debug("Request head for UUID: {}".format(uuid))
-        logging.debug("Making request to {}".format(request_url))
+        logging.debug(f"Request head for UUID: {uuid}")
+        logging.debug(f"Making request to {request_url}")
         r = requests.get(request_url, stream=True)
 
         if r.status_code == 200:
             filepath = os.path.join(self._temp_dir, "{}.png".format(uuid))
-            logging.debug("Set image filepath to: {}".format(filepath))
+            logging.debug(f"Set image filepath to: {filepath}")
             with open(filepath, "wb") as f:
                 r.raw.decode_content = True
                 shutil.copyfileobj(r.raw, f)
 
             return filepath
-        else:
-            return None
+
+        return None
 
     def _get_online_players(self):
         """
@@ -81,9 +88,9 @@ class MinecraftConnector:
                 )
                 raise SystemExit
 
-            players = [p for p in status["players"]["sample"]]
+            players = list(status["players"]["sample"])
 
-            self._log.debug("{} players found.".format(len(players)))
+            self._log.debug(f"{len(players)} players found.")
 
             for p in players:
                 head = None
@@ -93,8 +100,8 @@ class MinecraftConnector:
                 p["image"] = head
 
             return sorted(players, key=lambda p: p["name"])
-        else:
-            return []
+
+        return []
 
 
 if __name__ == "__main__":
