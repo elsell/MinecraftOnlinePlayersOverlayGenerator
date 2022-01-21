@@ -44,4 +44,3 @@ nodeLanguageServer.*/**
 dist/**
 *.ini
 *.png
-*.ttf
