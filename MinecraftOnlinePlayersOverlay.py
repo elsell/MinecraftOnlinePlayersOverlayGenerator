@@ -84,7 +84,16 @@ class MinecraftOnlinePlayersOverlay:
 
         if len(players) > 0:
             names = [p["name"] for p in players]
-            images = [Image.open(i) for i in [p["image"] for p in players]]
+            images = []
+            try:
+                images = [Image.open(i) for i in [p["image"] for p in players]]
+            except AttributeError as e:
+                self._log.warning(
+                    "Unable to read an image. Will wait until next update as this may resolve itself. %s",
+                    repr(e),
+                )
+                return None
+
             widths, heights = zip(*(i.size for i in images))
 
             # These seem backwards because we are making
