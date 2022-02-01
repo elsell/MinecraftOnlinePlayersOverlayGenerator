@@ -77,7 +77,20 @@ class MinecraftOnlinePlayersOverlay:
             )
 
     def _save_image(self, image, image_name):
-        image.save(os.path.join(self._image_output_dir, image_name))
+        image_path = os.path.join(self._image_output_dir, image_name)
+
+        try:
+            if not os.path.isdir(self._image_output_dir):
+                os.mkdir(self._image_output_dir)
+
+            image.save(image_path)
+        except FileNotFoundError as e:
+            self._log.critical(
+                "Could not save image to %s! If you're attempting to save an image to a network location,"
+                " please ensure that the network location is accessable. Will wait and try again. (Error: %s)",
+                image_path,
+                repr(e),
+            )
 
     def _build_player_image_board(self):
         players = self._mcserver.get_online_players()
