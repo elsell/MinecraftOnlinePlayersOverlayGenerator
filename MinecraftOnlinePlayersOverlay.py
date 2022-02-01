@@ -119,7 +119,8 @@ class MinecraftOnlinePlayersOverlay:
                 combined_images, names, total_width, self._vertical_padding
             )
 
-        return None
+        # Return a blank image if no players are found.
+        return Image.new("RGBA", (1, 1))
 
     def _draw_player_names_on_image(self, image, names, head_height, padding):
         width, height = image.size
@@ -184,9 +185,17 @@ class MinecraftOnlinePlayersOverlay:
             player_image = self._build_player_image_board()
             if player_image:
                 self._save_image(player_image, self._player_image_name)
-                self._log.info("Saving image: %s", self._player_image_name)
+                online_count = len(self._mcserver.get_online_players())
+                self._log.info(
+                    "(%i Online) Saving image: %s",
+                    online_count,
+                    self._player_image_name,
+                )
             else:
-                self._log.info("No players found. Not updating image.")
+                self._log.info(
+                    "Error creating image. Will wait %is and try again.",
+                    self._refresh_every_seconds,
+                )
 
             time.sleep(self._refresh_every_seconds)
 

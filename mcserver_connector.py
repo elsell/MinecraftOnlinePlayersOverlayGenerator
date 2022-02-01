@@ -84,10 +84,7 @@ class MinecraftConnector:
         if status:
             status = status.raw
             if "sample" not in status["players"]:
-                self._log.fatal(
-                    "Server did not return any player information! Unable to proceed."
-                )
-                raise SystemExit
+                return []
 
             players = list(status["players"]["sample"])
 
