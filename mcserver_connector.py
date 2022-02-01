@@ -6,6 +6,8 @@ from urllib import request
 import requests
 from mcstatus import MinecraftServer
 
+_VERSION = "v0.0.2"
+
 
 class MinecraftConnector:
     """mcstatus wrapper that adds the ability to get
@@ -34,7 +36,7 @@ class MinecraftConnector:
         shutil.rmtree(self._temp_dir)
 
     def _init_logging(self):
-        self._log.info("Init Minecraft Connector")
+        self._log.info("Init Minecraft Connector %s", _VERSION)
         self._log.info("{}{:<30}{}".format(" " * 4, "Server IP:", self._server_ip))
         self._log.info("{}{:<30}{}".format(" " * 4, "Server Port:", self._server_port))
         self._log.info("{}{:<30}{}".format(" " * 4, "Temp Dir", self._temp_dir))
