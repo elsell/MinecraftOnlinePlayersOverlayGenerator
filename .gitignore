@@ -44,3 +44,7 @@ nodeLanguageServer.*/**
 dist/**
 *.ini
 *.png
+*.ps1
+*.spec
+build/
+*.ico
