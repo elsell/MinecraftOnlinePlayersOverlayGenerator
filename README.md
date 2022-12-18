@@ -40,7 +40,7 @@ There are two ways to use MOPOG:
 
 #### 1. [Download the latest build](https://github.com/elsell/MinecraftOnlinePlayersOverlayGenerator/releases/latest)
 
-#### 2. Run mowpog.exe
+#### 2. Run mopog.exe
 
 A configuration file called `Minecraft_Online_Players_Overlay_Settings.ini` will be generated.
 
