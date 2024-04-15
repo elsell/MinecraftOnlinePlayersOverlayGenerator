@@ -58,7 +58,7 @@ By default, an image called `online_players.png` will be saved to the same direc
 
 1. Clone this repository
 ```
-git clone https://elsell/MinecraftOnlinePlayersOverlayGenerator && cd MinecraftOnlinePlayersOverlayGenerator
+git clone https://github.com/elsell/MinecraftOnlinePlayersOverlayGenerator && cd MinecraftOnlinePlayersOverlayGenerator
 ```
 
 2. Install Dependencies
